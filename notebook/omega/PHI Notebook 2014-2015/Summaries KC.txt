@@ -1,0 +1,5 @@
+Stick shaping:
+PHI Robotics uses a system known as stick shaping to give drivers better control in tele-op.  Stick shaping was developed by members of PHI when it first began, and has been refined by more recent team members.  It works by using calculus to graph the position of the joystick to a curve instead of a straight line, so that when drivers are only pushing the joystick a little bit the robot goes noticeably slower, allowing for more controlled movements, but still allows the robot to go full speed when the joystick is pushed to its maximum extent. 
+
+Gyro turn:
+PHI Omega also uses data from a gyroscope to add precision to the robot's turns in autonomy.  This data is integrated with a calculus equation, making the robot's movements much more accurate.
