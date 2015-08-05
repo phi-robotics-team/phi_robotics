@@ -1,0 +1,80 @@
+#include <ADXL345.h>
+#include <Wire.h>
+
+ADXL345 accel;
+int x = 0, y = 0, z = 0;
+float gravityBias = 0;
+float botAccel = 0, prevAccel = 0;
+int deltaT = 0;
+float velocity = 0, prevVelocity = 0, dist = 0, distDesired = 0;
+
+int clockPin = 3, sigAPin = 4, sigBPin = 5;
+
+int updateTimer = 0;
+int deltaTimer = 0;
+
+void setup() {
+  reset();
+  
+  accel.powerOn();
+  accel.readAccel(&x, &y, &z);
+  updateTimer = millis();
+  gravityBias = sqrt(x * x + y * y + z * z);
+}
+
+void loop() {
+  if (digitalRead(clockPin) == HIGH && digitalRead(sigAPin) == HIGH)
+  {
+    digitalWrite(sigBPin, HIGH);
+    
+    while (sigAPin == HIGH);
+  }
+  
+  while (dist < distDesired)
+  {
+    updateAccel();
+    
+    deltaT = (deltaTimer - micros()) * 0.000001;
+    deltaTimer = micros();
+    
+    if (abs(botAccel < 0.01))
+      botAccel = 0;
+    
+    velocity += deltaT/2 * (prevAccel + botAccel);
+    dist += deltaT/2 * (prevVelocity + velocity);
+    
+    prevAccel = botAccel;
+    prevVelocity = velocity;
+    delay(5);
+  }
+  
+  reset();
+}
+
+void reset()
+{
+  dist = 0;
+  distDesired = 0;
+  
+  pinMode(clockPin, INPUT);
+  pinMode(sigAPin, INPUT);
+  pinMode(sigBPin, OUTPUT);
+}
+
+void updateAccel()
+{
+  if ((millis() - updateTimer) > 5){  //Update only once per 5ms (200Hz update rate)
+    accel.readAccel(&x, &y, &z);
+    updateTimer = millis();
+  }
+  
+  float vector = sqrt(x * x + y * y + z * z);
+  botAccel = sqrt(vector * vector - gravityBias * gravityBias) * sign(x);
+}
+
+int sign(int n)
+{
+  if (n < 0)
+    return -1;
+  return 1;
+}

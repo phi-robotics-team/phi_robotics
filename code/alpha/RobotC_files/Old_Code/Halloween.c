@@ -1,0 +1,50 @@
+void Halloween()
+{
+  //        180 = Tempo
+  //          5 = Default octave
+  //    Quarter = Default note length
+  //        10% = Break between notes
+  //
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  933,   15); wait1Msec( 167);  // Note(D#6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  933,   15); wait1Msec( 167);  // Note(D#6, Duration(Eighth))
+  PlayTone(  783,   15); wait1Msec( 167);  // Note(G, Duration(Eighth))
+  PlayTone(  831,   15); wait1Msec( 167);  // Note(C#6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  831,   15); wait1Msec( 167);  // Note(C#6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  831,   15); wait1Msec( 167);  // Note(C#6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  831,   15); wait1Msec( 167);  // Note(C#6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  831,   15); wait1Msec( 167);  // Note(C#6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  831,   15); wait1Msec( 167);  // Note(C#6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  PlayTone(  880,   15); wait1Msec( 167);  // Note(D6, Duration(Eighth))
+  PlayTone(  739,   15); wait1Msec( 167);  // Note(F#, Duration(Eighth))
+  return;
+}
+
