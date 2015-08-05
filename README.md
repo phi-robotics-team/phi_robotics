@@ -9,7 +9,7 @@ All information should be stored here for easy access by both teams.
 Contains added once/not changed documents such as PDFs, styleguides, templates, etc
 
 ### Pictures
-Contains pictures that were taken by the team for use in notebooks, outreach, etc
+Pictures are in the Google drive area, not in Github
 
 ### Code
 Contains two sub-directories, one for Alpha and one for Omega
