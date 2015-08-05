@@ -1,0 +1,26 @@
+Accel_old = 0
+
+Velocity_old = 0
+
+Distance_old= 0
+
+Timer = 0
+
+While(Distance_desired > Distance)
+
+{
+	Timer = 0
+	Time_new = Timer
+            
+	Velocity_new = (Accel_old + Accel_new) * Time_new * 0.5
+
+	Distance_new = (Velocity_old + Velocity_new) * Time_new * 0.5
+
+	Distance = Distance_old + Distance_new
+	
+	Distance_old = Distance
+
+	Accel_old = Accel_new
+
+	Velocity_old = Velocity_new
+}
