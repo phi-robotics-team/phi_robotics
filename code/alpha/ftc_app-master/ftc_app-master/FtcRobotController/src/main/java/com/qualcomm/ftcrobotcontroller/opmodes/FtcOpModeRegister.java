@@ -102,5 +102,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("FrenchFries", FrenchFries.class);
     manager.register("ServoMove", ServoMove.class);
     manager.register("FirstAutonomous", FirstAutonomous.class);
+    manager.register("EncoderProgram", EncoderProgram.class);
   }
 }
