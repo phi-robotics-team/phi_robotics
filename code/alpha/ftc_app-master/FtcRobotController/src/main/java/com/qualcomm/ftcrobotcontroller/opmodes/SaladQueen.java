@@ -20,6 +20,8 @@ public class SaladQueen extends OpMode {
 
         motorRight = hardwareMap.dcMotor.get("motor_2");
         motorLeft = hardwareMap.dcMotor.get("motor_1");
+        motorRight.setDirection(DcMotor.Direction.REVERSE);
+
 
     }
 
