@@ -2,6 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -19,10 +20,8 @@ public class FrenchFries extends OpMode {
 
     // amount to change the arm servo position.
     double armDelta = 0.1;
-
-
-    DcMotor motorRight;
-    DcMotor motorLeft;
+    DcMotor motorRight; //1, -1;
+    DcMotor motorLeft; // 1, -1
     Servo arm;
 
     /**

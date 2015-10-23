@@ -11,8 +11,8 @@ public class ServoMove extends OpMode {
 
 
 
-    Servo servo1;
-    Servo servo2;
+    Servo servo1 = 0.5;
+    Servo servo2 = 0.5;
 
     //Position constants for the buttons
     double DOWN_POSITION = 0.6;
