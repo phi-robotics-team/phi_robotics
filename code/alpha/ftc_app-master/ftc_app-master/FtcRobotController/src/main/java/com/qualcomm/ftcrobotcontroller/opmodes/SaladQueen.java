@@ -34,7 +34,7 @@ public class SaladQueen extends OpMode {
 
 
         float left_drive = -gamepad1.left_stick_y;
-        float right_drive = gamepad1.right_stick_y;
+        float right_drive = -gamepad1.right_stick_y;
 
         left_drive = Range.clip(left_drive, -1, 1);
         right_drive = Range.clip(right_drive, -1, 1);
