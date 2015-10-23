@@ -46,7 +46,7 @@ public class ColorSensorDriver extends LinearOpMode {
 
   public enum ColorSensorDevice {ADAFRUIT, HITECHNIC_NXT, MODERN_ROBOTICS_I2C};
 
-  public ColorSensorDevice device = ColorSensorDevice.MODERN_ROBOTICS_I2C;
+  public ColorSensorDevice device = ColorSensorDevice.HITECHNIC_NXT;
 
   ColorSensor colorSensor;
   DeviceInterfaceModule cdim;
