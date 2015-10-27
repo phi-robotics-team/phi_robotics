@@ -79,13 +79,13 @@ public class KhanTeleOp extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-		rightFront = hardwareMap.dcMotor.get("front_right");
-		rightRear = hardwareMap.dcMotor.get("back_right");
-		leftFront = hardwareMap.dcMotor.get("front_left");
-		leftRear = hardwareMap.dcMotor.get("back_left");
+		rightFront = hardwareMap.dcMotor.get("rightFront");
+		rightRear = hardwareMap.dcMotor.get("rightRear");
+		leftFront = hardwareMap.dcMotor.get("leftFront");
+		leftRear = hardwareMap.dcMotor.get("leftRear");
 
-		leftFront.setDirection(DcMotor.Direction.REVERSE);
-		leftRear.setDirection(DcMotor.Direction.REVERSE);
+		rightFront.setDirection(DcMotor.Direction.REVERSE);
+		rightRear.setDirection(DcMotor.Direction.REVERSE);
 	}
 
 	/*
