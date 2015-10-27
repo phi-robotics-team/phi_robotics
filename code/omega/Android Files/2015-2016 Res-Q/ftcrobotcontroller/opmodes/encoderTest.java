@@ -72,16 +72,16 @@ public class encoderTest extends OpMode {
 
         leftFront = hardwareMap.dcMotor.get("leftFront");
         leftRear = hardwareMap.dcMotor.get("leftRear");
-        rightRear = hardwareMap.dcMotor.get("rightFront");
-        rightFront = hardwareMap.dcMotor.get("rightRear");
+        rightRear = hardwareMap.dcMotor.get("rightRear");
+        rightFront = hardwareMap.dcMotor.get("rightFront");
 
         dc_1 = hardwareMap.dcMotorController.get("dc_1");
         dc_2 = hardwareMap.dcMotorController.get("dc_2");
         devMode_a = DcMotorController.DeviceMode.WRITE_ONLY;
         devMode_b = DcMotorController.DeviceMode.WRITE_ONLY;
 
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         // set the mode
         // Nxt devices start up in "write" mode by default, so no need to switch device modes here.
@@ -122,17 +122,21 @@ public class encoderTest extends OpMode {
 
                     leftFront.setPower(1.0);
                     rightFront.setPower(1.0);
+                    leftRear.setPower(1.0);
+                    rightRear.setPower(1.0);
 
-                    if (leftFrontTargetEncoder == firstTarget && rightRearTargetEncoder == firstTarget) {
+                    if (leftFrontTargetEncoder == firstTarget && rightFrontTargetEncoder == firstTarget) {
                         state = State.STATE_ONE;
                     }
                     break;
                 case STATE_ONE:
-                    if (withinMarginOfError(firstTarget, rightRearCurrentEncoder) &&
+                    if (withinMarginOfError(firstTarget, rightFrontCurrentEncoder) &&
                             withinMarginOfError(firstTarget, leftFrontCurrentEncoder)) {
 
                         leftFront.setPower(0.0);
                         rightFront.setPower(0.0);
+                        rightRear.setPower(0.0);
+                        leftRear.setPower(0.0);
                     }
                     break;
             }
@@ -167,23 +171,23 @@ public class encoderTest extends OpMode {
 
             rightFrontCurrentEncoder = rightFront.getCurrentPosition();
             leftFrontCurrentEncoder = leftFront.getCurrentPosition();
-            rightRearCurrentEncoder = rightRear.getCurrentPosition();
-            leftRearCurrentEncoder = leftRear.getCurrentPosition();
+            // rightRearCurrentEncoder = rightRear.getCurrentPosition();
+            // leftRearCurrentEncoder = leftRear.getCurrentPosition();
 
             telemetry.addData("right front curr enc", rightFrontCurrentEncoder);
             telemetry.addData("left front curr enc", leftFrontCurrentEncoder);
-            telemetry.addData("right rear curr enc", rightRearCurrentEncoder);
-            telemetry.addData("left rear curr enc", leftRearCurrentEncoder);
+            // telemetry.addData("right rear curr enc", rightRearCurrentEncoder);
+            // telemetry.addData("left rear curr enc", leftRearCurrentEncoder);
 
             leftFrontTargetEncoder = leftFront.getTargetPosition();
             rightFrontTargetEncoder = rightFront.getTargetPosition();
-            leftRearTargetEncoder = leftRear.getTargetPosition();
-            rightRearTargetEncoder = rightRear.getTargetPosition();
+            // leftRearTargetEncoder = leftRear.getTargetPosition();
+            // rightRearTargetEncoder = rightRear.getTargetPosition();
 
             telemetry.addData("right front target", rightFrontTargetEncoder);
             telemetry.addData("left front target", leftFrontTargetEncoder);
-            telemetry.addData("right rear target", rightRearTargetEncoder);
-            telemetry.addData("left rear target", leftRearTargetEncoder);
+            // telemetry.addData("right rear target", rightRearTargetEncoder);
+            // telemetry.addData("left rear target", leftRearTargetEncoder);
 
             // Only needed on Nxt devices, but not on USB devices
             dc_1.setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
