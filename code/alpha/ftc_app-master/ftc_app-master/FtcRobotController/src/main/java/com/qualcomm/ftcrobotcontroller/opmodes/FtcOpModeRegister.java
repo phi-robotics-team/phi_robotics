@@ -64,6 +64,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("ColorSensorDriver", ColorSensorDriver.class);
     manager.register("HTRGBExample", HTRGBExample.class);
     manager.register("ArcadeDrive", ArcadeDrive.class);
+    manager.register("ForwardAndTurn", ForwardAndTurn.class);
 
 
     /*
