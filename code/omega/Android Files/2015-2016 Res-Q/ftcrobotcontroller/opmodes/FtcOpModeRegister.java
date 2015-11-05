@@ -56,11 +56,13 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
 
     manager.register("KhanTeleOp", KhanTeleOp.class);
-    manager.register("test_time", test_time.class);
-    manager.register("MRRGBExample", MRRGBExample.class);
+    // manager.register("test_time", test_time.class);
+    // manager.register("MRRGBExample", MRRGBExample.class);
     manager.register("test_mr_rgb", test_mr_rgb.class);
-    manager.register("encoderDrive", encoderDrive.class);
+    // manager.register("encoderDrive", encoderDrive.class);
     manager.register("encoderTest", encoderTest.class);
+    manager.register("test time 3", test_time_3.class);
+    manager.register("Turn Gyro mod t", TurnGyro_mod_t.class);
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.

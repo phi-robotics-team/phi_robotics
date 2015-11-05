@@ -1,22 +1,16 @@
 /* Copyright (c) 2014 Qualcomm Technologies Inc
-
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without modification,
 are permitted (subject to the limitations in the disclaimer below) provided that
 the following conditions are met:
-
 Redistributions of source code must retain the above copyright notice, this list
 of conditions and the following disclaimer.
-
 Redistributions in binary form must reproduce the above copyright notice, this
 list of conditions and the following disclaimer in the documentation and/or
 other materials provided with the distribution.
-
 Neither the name of Qualcomm Technologies Inc nor the names of its contributors
 may be used to endorse or promote products derived from this software without
 specific prior written permission.
-
 NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
 LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -111,11 +105,13 @@ public class KhanTeleOp extends OpMode {
 	public void Drive()
 	{
 		//Define storage variables
-		int deadband = 10;
-		float rawX = 0;
-		float rawY = 0;
-		float shapedX, shapedY;
-		float leftPower, rightPower;
+		int deadband = 0;
+		double rawX = 0;
+		double rawY = 0;
+		double shapedX, shapedY;
+		double leftPower, rightPower;
+
+		double scl_power = 3.0;
 
 		//Check if the joystick is being used on any axis
 		if (Math.abs(gamepad1.left_stick_x) > deadband)
@@ -130,10 +126,28 @@ public class KhanTeleOp extends OpMode {
 		//shapedX = (float)(2/225) * (rawX * abs(rawX)) + (float)(14/45) * rawX;
 		//shapedY = (float)(2/225) * (rawY * abs(rawY)) + (float)(14/45) * rawY;
 
+
+		shapedX=shapedX*scl_power;
+		shapedY=shapedY*scl_power;
+
+		if (shapedX > 1.0) shapedX=1.0;
+		if (shapedX < -1.0) shapedX=-1.0;
+		if (shapedY > 1.0) shapedY = 1.0;
+		if (shapedY < -1.0) shapedY = -1.0;
+
 		//Determine power of each side by slowing one side and increasing the other appropriately
 		leftPower = shapedY - shapedX;
 		rightPower = shapedY + shapedX;
 
+
+		if (leftPower > 1.0) leftPower=1.0;
+		if (leftPower < -1.0) leftPower=-1.0;
+		if (rightPower > 1.0) rightPower = 1.0;
+		if (rightPower < -1.0) rightPower= -1.0;
+
+
+		telemetry.addData("leftPower",leftPower);
+		telemetry.addData("rightPower",rightPower);
 		//Finally, set the power to the motors
 		leftFront.setPower(leftPower);
 		leftRear.setPower(leftPower);
