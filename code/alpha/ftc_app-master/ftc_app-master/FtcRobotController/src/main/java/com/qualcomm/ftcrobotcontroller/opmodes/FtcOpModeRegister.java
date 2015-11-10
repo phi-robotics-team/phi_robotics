@@ -66,6 +66,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("ArcadeDrive", ArcadeDrive.class);
     manager.register("ForwardAndTurn", ForwardAndTurn.class);
     manager.register("DrivingInSquare", DrivingInSquare.class);
+    manager.register("TeleOp", TeleOp.class);
 
 
     /*
