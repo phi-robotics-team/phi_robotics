@@ -16,18 +16,26 @@ public class TeleOp extends OpMode {
     DcMotor rightMotor;
     Servo servo1;
     Servo servo2;
-    DcMotor leftArm;
+    DcMotor sliderMotor;
+    boolean rightActive;
+    boolean leftActive;
+    DcMotor wenchMotor;
 
     @Override
     public void init() {
         //Get references to the motors and servos from the hardware map
         servo1 = hardwareMap.servo.get("servo_1");
         servo2 = hardwareMap.servo.get("servo_2");
-        leftArm = hardwareMap.dcMotor.get("left_arm");
+        sliderMotor = hardwareMap.dcMotor.get("slider");
+        wenchMotor = hardwareMap.dcMotor.get("wench");
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
         //Reverse the right motor
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        // This code tracks the state of the servos as active or inactive
+        rightActive = false;
+        leftActive = false;
+
     }
 
     @Override
@@ -52,33 +60,33 @@ public class TeleOp extends OpMode {
         rightMotor.setPower(rightPower);
 
         // This code will control the up and down movement of
-        // the arm using the y and b gamepad buttons.
-        float armMove = gamepad1.right_stick_y;
+        // the grapple hook using the right joystick
+        float grapple = gamepad1.right_stick_y;
+        grapple = Range.clip(grapple, -1, 1);
+        wenchMotor.setPower(grapple);
 
-        armMove = Range.clip(armMove, -1, 1);
-
-        leftArm.setPower(armMove);
-
-
-
-            //**** Move a Servo with Buttons ****
-            //Move servo 1 to the up position when a button is pressed
-            if(gamepad1.a) {
-                servo1.setPosition(LEFT_OPEN_POSITION);
-            }
-            //Move servo 1 to the down position when a button is pressed
-            if(gamepad1.b) {
-                servo1.setPosition(LEFT_CLOSED_POSITION);
-            }
-
-            // This code will open and close the gripper with two buttons
-        // using 1 button to open and another to close the gripper
-        if(gamepad1.x) {
-            servo2.setPosition(RIGHT_OPEN_POSITION);
+        // The left servo will be using the button A to move
+        if (gamepad1.a && leftActive == false) {
+            servo1.setPosition(LEFT_OPEN_POSITION);
+            leftActive = true;
+        } else if (gamepad1.a && leftActive == true) {
+            servo1.setPosition(LEFT_CLOSED_POSITION);
+            leftActive = false;
         }
-        if(gamepad1.y) {
-            servo2.setPosition(RIGHT_CLOSED_POSITION);
+        // The right servo will be using button X to move
+        if (gamepad1.b && rightActive == false) {
+            servo1.setPosition(RIGHT_OPEN_POSITION);
+            rightActive = true;
+        } else if (gamepad1.b && rightActive == true) {
+            servo1.setPosition(RIGHT_CLOSED_POSITION);
+            rightActive = false;
         }
+
+        float sliderUp = gamepad1.right_trigger;
+        float sliderDown = gamepad1.left_trigger;
+        float slider = sliderUp - sliderDown;
+        slider = Range.clip(slider, -1, 1);
+        sliderMotor.setPower(slider);
 
     }
 
