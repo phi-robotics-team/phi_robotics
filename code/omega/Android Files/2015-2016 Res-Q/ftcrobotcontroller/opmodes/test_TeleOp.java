@@ -46,6 +46,7 @@ public class test_TeleOp extends OpMode {
 	DcMotor rightFront;
 	DcMotor rightRear;
 	DcMotor conveyM;
+	DcMotor lift;
 
 
 	/**
@@ -84,7 +85,7 @@ public class test_TeleOp extends OpMode {
 		rightRear = hardwareMap.dcMotor.get("back_right");
 		leftFront = hardwareMap.dcMotor.get("front_left");
 		leftRear = hardwareMap.dcMotor.get("back_left");
-		conveyM = hardwareMap.dcMotor.get("conveyor");
+		lift = hardwareMap.dcMotor.get("lift");
 
 		leftFront.setDirection(DcMotor.Direction.REVERSE);
 		leftRear.setDirection(DcMotor.Direction.REVERSE);
@@ -117,9 +118,11 @@ public class test_TeleOp extends OpMode {
 		float rawX = 0;
 		float rawY = 0;
 		double conv_p = -.8;
+		double conv_p2= -.6;
 		float shapedX, shapedY;
 		float leftPower, rightPower;
 		double convPower;
+		double convPower2;
 		float scl_power = 3;
 
 		//Check if the joystick is being used on any axis
@@ -160,6 +163,17 @@ public class test_TeleOp extends OpMode {
 			convPower = -conv_p;
 		}
 
+		convPower2= 0;
+		if (gamepad1.left_bumper)
+		{
+			convPower2 = conv_p2;
+		}
+
+		if (gamepad1.left_trigger > .1)
+		{
+			convPower2 = -conv_p2;
+		}
+
 
 		//Finally, set the power to the motors
 		leftFront.setPower(leftPower);
@@ -167,6 +181,7 @@ public class test_TeleOp extends OpMode {
 		rightFront.setPower(rightPower);
 		rightRear.setPower(rightPower);
 		conveyM.setPower(convPower);
+		lift.setPower(convPower2);
 
 		telemetry.addData("leftPower ", leftPower);
 		telemetry.addData("rightPower ", rightPower);
