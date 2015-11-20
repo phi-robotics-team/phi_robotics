@@ -37,6 +37,10 @@ public class encoderTest extends OpMode {
 
     int numOpLoops = 1;
 
+    int firstTarget = 1120 * 20;
+    //int secondTarget = 0.0;
+
+
     State state;
 
     public enum State {
@@ -45,8 +49,6 @@ public class encoderTest extends OpMode {
         STATE_TWO
     }
 
-    int firstTarget = 1120 * 20;
-    int secondTarget = 0;
 
     /**
      * Constructor
@@ -55,7 +57,7 @@ public class encoderTest extends OpMode {
 
     }
 
-     @Override
+    @Override
     public void init() {
 
 
@@ -125,7 +127,8 @@ public class encoderTest extends OpMode {
                     leftRear.setPower(1.0);
                     rightRear.setPower(1.0);
 
-                    if (leftFrontTargetEncoder == firstTarget && rightFrontTargetEncoder == firstTarget) {
+                    if (withinMarginOfError(firstTarget, rightFrontCurrentEncoder) &&
+                            withinMarginOfError(firstTarget, leftFrontCurrentEncoder)) {
                         state = State.STATE_ONE;
                     }
                     break;
@@ -133,6 +136,7 @@ public class encoderTest extends OpMode {
                     if (withinMarginOfError(firstTarget, rightFrontCurrentEncoder) &&
                             withinMarginOfError(firstTarget, leftFrontCurrentEncoder)) {
 
+                        telemetry.addData("inside loop", "yes");
                         leftFront.setPower(0.0);
                         rightFront.setPower(0.0);
                         rightRear.setPower(0.0);
@@ -154,6 +158,15 @@ public class encoderTest extends OpMode {
             // This method does nothing on USB devices, but is needed on Nxt devices.
             dc_1.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY);
             dc_2.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY);
+            if (withinMarginOfError(firstTarget, rightFrontCurrentEncoder) &&
+                    withinMarginOfError(firstTarget, leftFrontCurrentEncoder)) {
+
+                telemetry.addData("inside loop", "yes");
+                leftFront.setPower(0.0);
+                rightFront.setPower(0.0);
+                rightRear.setPower(0.0);
+                leftRear.setPower(0.0);
+            }
         }
 
         // If we've switched to read mode, we can read data from the NXT device.
@@ -215,8 +228,8 @@ public class encoderTest extends OpMode {
     }
 
     private boolean withinMarginOfError(int goal, int value) {
-        int lowerMargin = goal - 2;
-        int upperMargin = goal + 2;
+        int lowerMargin = goal - 5;
+        int upperMargin = goal + 5;
         return (value >= lowerMargin && value <= upperMargin);
     }
 

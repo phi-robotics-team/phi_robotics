@@ -40,7 +40,7 @@ public class KhanTeleOp extends OpMode {
 	DcMotor leftRear;
 	DcMotor rightFront;
 	DcMotor rightRear;
-
+	DcMotor intake;
 	/**
 	 * Constructor
 	 */
@@ -77,6 +77,7 @@ public class KhanTeleOp extends OpMode {
 		rightRear = hardwareMap.dcMotor.get("rightRear");
 		leftFront = hardwareMap.dcMotor.get("leftFront");
 		leftRear = hardwareMap.dcMotor.get("leftRear");
+		intake = hardwareMap.dcMotor.get("intake");
 
 		rightFront.setDirection(DcMotor.Direction.REVERSE);
 		rightRear.setDirection(DcMotor.Direction.REVERSE);
@@ -92,6 +93,11 @@ public class KhanTeleOp extends OpMode {
 		Drive();
 	}
 
+	//when we press the button, we want the motors to move to turn the conveyor
+	//R1 will be intake, R2 is outtake
+	//R1 will be counterclockwise, R2 will be clockwise
+	//one motor
+	//We need to name the motor and define counterclockwise and clockwise
 	/*
 	 * Code to run when the op mode is first disabled goes here
 	 * 
@@ -118,7 +124,10 @@ public class KhanTeleOp extends OpMode {
 			rawX = gamepad1.left_stick_x - (sgn(gamepad1.left_stick_x) * (float)deadband); //Set variables and subtract deadband from total to avoid jump
 		if (Math.abs(gamepad1.left_stick_y) > deadband)
 			rawY = gamepad1.left_stick_y - (sgn(gamepad1.left_stick_y) * (float)deadband); //Set variables and subtract deadband from total to avoid jump
+		if (Math.abs(gamepad1.right_trigger) > deadband) {
 
+		} //outtake
+		//intake
 		//Shape the powers based on equation: y = (2/225)(x*abs(x))+(14/45)x
 		//Shortened constants from 16 decimal places to 12
 		shapedX = (float)0.008888888889 * (rawX * Math.abs(rawX)) + (float)0.311111111111 * rawX;

@@ -76,6 +76,7 @@ public class TurnGyro_mod_t extends LinearOpMode {
                 delta_time = time - time_old;
                 double dtt= tt - ttp;
                 double del_time = dtt;
+            if (ii==1) angle_o= Angle;
                 telemetry.addData("time", time);
                 telemetry.addData("time_old", time_old);
                 telemetry.addData("delta_time", delta_time);
@@ -89,7 +90,6 @@ public class TurnGyro_mod_t extends LinearOpMode {
                 time_old = time;
                 ttp = tt;
                 GyroOld = GyroNew;
-                if (ii==1) angle_o= Angle;
                 telemetry.addData("Angle", Angle);
             telemetry.addData("angle_o",angle_o);
 
