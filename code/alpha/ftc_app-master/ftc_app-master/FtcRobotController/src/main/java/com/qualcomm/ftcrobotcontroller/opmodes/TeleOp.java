@@ -20,6 +20,8 @@ public class TeleOp extends OpMode {
     boolean rightActive;
     boolean leftActive;
     DcMotor wenchMotor;
+    Servo servo3;
+    boolean hookActive;
 
     @Override
     public void init() {
@@ -30,11 +32,13 @@ public class TeleOp extends OpMode {
         wenchMotor = hardwareMap.dcMotor.get("wench");
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
+        servo3 = hardwareMap.servo.get("hook");
         //Reverse the right motor
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         // This code tracks the state of the servos as active or inactive
         rightActive = false;
         leftActive = false;
+        hookActive = false;
 
     }
 
@@ -75,13 +79,20 @@ public class TeleOp extends OpMode {
         }
         // The right servo will be using button X to move
         if (gamepad1.b && rightActive == false) {
-            servo1.setPosition(RIGHT_OPEN_POSITION);
+            servo2.setPosition(RIGHT_OPEN_POSITION);
             rightActive = true;
         } else if (gamepad1.b && rightActive == true) {
-            servo1.setPosition(RIGHT_CLOSED_POSITION);
+            servo2.setPosition(RIGHT_CLOSED_POSITION);
             rightActive = false;
         }
 
+        if (gamepad1.x && hookActive == false) {
+            servo3.setPosition(RIGHT_OPEN_POSITION);
+            hookActive = true;
+        } else if (gamepad1.x && hookActive == true) {
+            servo3.setPosition(RIGHT_CLOSED_POSITION);
+            hookActive = false;
+        }
         float sliderUp = gamepad1.right_trigger;
         float sliderDown = gamepad1.left_trigger;
         float slider = sliderUp - sliderDown;
