@@ -20,6 +20,7 @@ public class TeleOp extends OpMode {
     boolean rightActive;
     boolean leftActive;
     DcMotor wenchMotor;
+    DcMotor wenchMotor2;
     Servo servo3;
     boolean hookActive;
 
@@ -30,6 +31,7 @@ public class TeleOp extends OpMode {
         servo2 = hardwareMap.servo.get("servo_2");
         sliderMotor = hardwareMap.dcMotor.get("slider");
         wenchMotor = hardwareMap.dcMotor.get("wench");
+        wenchMotor2 = hardwareMap.dcMotor.get("wench_2");
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
         servo3 = hardwareMap.servo.get("hook");
@@ -66,8 +68,10 @@ public class TeleOp extends OpMode {
         // This code will control the up and down movement of
         // the grapple hook using the right joystick
         float grapple = gamepad1.right_stick_y;
+        float grapple2 = gamepad1.right_stick_y;
         grapple = Range.clip(grapple, -1, 1);
         wenchMotor.setPower(grapple);
+        wenchMotor2.setPower(grapple2);
 
         // The left servo will be using the button A to move
         if (gamepad1.a && leftActive == false) {
