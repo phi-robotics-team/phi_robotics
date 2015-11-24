@@ -23,6 +23,7 @@ public class TeleOp extends OpMode {
     DcMotor wenchMotor2;
     Servo servo3;
     boolean hookActive;
+    boolean linkActive;
 
     @Override
     public void init() {
@@ -41,6 +42,7 @@ public class TeleOp extends OpMode {
         rightActive = false;
         leftActive = false;
         hookActive = false;
+        linkActive = false;
 
     }
 
@@ -70,8 +72,11 @@ public class TeleOp extends OpMode {
         float grapple = gamepad1.right_stick_y;
         float grapple2 = gamepad1.right_stick_y;
         grapple = Range.clip(grapple, -1, 1);
-        wenchMotor.setPower(grapple);
-        wenchMotor2.setPower(grapple2);
+        grapple2 = Range.clip(grapple2, -1, 1);
+        if (linkActive == false) {
+            wenchMotor.setPower(grapple);
+            wenchMotor2.setPower(grapple2);
+        }
 
         // The left servo will be using the button A to move
         if (gamepad1.a && leftActive == false) {
@@ -102,6 +107,16 @@ public class TeleOp extends OpMode {
         float slider = sliderUp - sliderDown;
         slider = Range.clip(slider, -1, 1);
         sliderMotor.setPower(slider);
+        
+        if (gamepad1.y && linkActive == false)  {
+            wenchMotor.setPower(slider);
+            wenchMotor2.setPower(slider);
+            linkActive = true;
+        } else if (gamepad1.y && linkActive == true) {
+            wenchMotor.setPower(grapple);
+            wenchMotor2.setPower(grapple2);
+            linkActive = false;
+        }
 
     }
 
