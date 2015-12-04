@@ -23,11 +23,12 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-package com.qualcomm.ftcrobotcontroller.opmodes;
+        package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
+        import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.Servo;
+        import com.qualcomm.robotcore.util.Range;
 
 /**
  * TeleOp Mode
@@ -36,11 +37,26 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class Unicorn extends OpMode {
 
+    final static double tmservo_MIN_RANGE  = 0.20;
+    final static double tmservo_MAX_RANGE  = 1.0;
+
+    // position of the tmservo servo
+    double tmservoPosition;
+
+    // position of the flapservo servo
+    double flapservoPosition;
+
+    // amount to change the tmservo servo position by
+    double tmservoDelta = 0.0025;
+
     DcMotor leftFront;
     DcMotor leftRear;
     DcMotor rightFront;
     DcMotor rightRear;
     DcMotor intake;
+    Servo tmservo;
+    Servo flapservo;
+    DcMotor lift;
     /**
      * Constructor
      */
@@ -71,16 +87,26 @@ public class Unicorn extends OpMode {
 		 *   
 		 * We also assume that there are two servos "servo_1" and "servo_6"
 		 *    "servo_1" controls the arm joint of the manipulator.
-		 *    "servo_6" controls the claw joint of the manipulator.
+		 *    "servo_6" controls the tmservo joint of the manipulator.
 		 */
         rightFront = hardwareMap.dcMotor.get("rightFront");
         rightRear = hardwareMap.dcMotor.get("rightRear");
         leftFront = hardwareMap.dcMotor.get("leftFront");
         leftRear = hardwareMap.dcMotor.get("leftRear");
         intake = hardwareMap.dcMotor.get("intake");
+        lift = hardwareMap.dcMotor.get("lift");
 
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
+
+        tmservo = hardwareMap.servo.get("servo_6");
+        tmservoPosition = 0.8;
+        telemetry.addData("pos", tmservo.getPosition());
+
+        flapservo = hardwareMap.servo.get("servo_1");
+        flapservoPosition = 0.5;
+        flapservo.setPosition(flapservoPosition);
+        telemetry.addData("pos", flapservo.getPosition());
     }
 
     /*
@@ -90,6 +116,7 @@ public class Unicorn extends OpMode {
      */
     @Override
     public void loop() {
+
         Drive();
     }
 
@@ -159,7 +186,8 @@ public class Unicorn extends OpMode {
         rightRear.setPower(rightPower);
         //intake power
         float intakePower = 1.0F;
-
+        float winchPower = 1.0F;
+        //INTAKE
         if (gamepad1.right_bumper)
         {
             intake.setPower(-intakePower);
@@ -172,6 +200,58 @@ public class Unicorn extends OpMode {
         {
             intake.setPower(0.0F);
         }
+        //WINCH
+        if (gamepad1.left_bumper)
+        {
+            lift.setPower(-winchPower);
+        } //intake
+        else if (gamepad1.left_trigger > 0)
+        {
+            lift.setPower(winchPower);
+        } //output
+        else
+        {
+            lift.setPower(0.0F);
+        }
+
+        // update the position of the tape measure servo
+        if (gamepad1.y) {
+            tmservoPosition += tmservoDelta;
+            telemetry.addData("gamepadX", "X pressed");
+        }
+
+        if (gamepad1.a) {
+            tmservoPosition -= tmservoDelta;
+            telemetry.addData("gamepadB", "B pressed");
+        }
+        telemetry.addData("tmservoposition", tmservoPosition);
+        // clip the position values so that they never exceed their allowed range.
+        tmservoPosition = Range.clip(tmservoPosition, tmservo_MIN_RANGE, tmservo_MAX_RANGE);
+
+        // write position values to the wrist and tmservo servo
+        tmservo.setPosition(tmservoPosition);
+
+        if (gamepad1.x)
+        {
+            if (flapservoPosition < 0.25)
+            {
+                flapservo.setPosition(0.5);
+                flapservoPosition = flapservo.getPosition();
+            }
+            else
+            {
+                flapservo.setPosition(0.0);
+                flapservoPosition = flapservo.getPosition();
+            }
+        }
+        /*
+		 * Send telemetry data back to driver station. Note that if we are using
+		 * a legacy NXT-compatible motor controller, then the getPower() method
+		 * will return a null value. The legacy NXT-compatible motor controllers
+		 * are currently write only.
+		 */
+        telemetry.addData("Text", "*** Robot Data***");
+        telemetry.addData("tmservo", "tmservo:  " + String.format("%.2f", tmservoPosition));
     }
 
 
