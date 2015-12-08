@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class TeleOp extends OpMode {
 
-    final double LEFT_SERVO_START = 0.0;
+    final double LEFT_SERVO_START = 1.0;
     final double LEFT_SERVO_EXTENDED =  0.5;
     final double RIGHT_SERVO_START = 0.0;
     final double RIGHT_SERVO_EXTENDED = 0.5;
@@ -15,6 +15,13 @@ public class TeleOp extends OpMode {
     final double HOOK_EXTENDED = 1.0;
     final double TRAP_DOOR_START = 0.0;
     final double TRAP_DOOR_EXTENDED = 1.0;
+
+    final double WENCH_POWER_START = 0.0;
+    final double WENCH_POWER_EXTENDED = 1.0;
+    final double WENCH_POWER_RETRACTED = -1.0;
+    final double FLAPPER_POWER_START = 0.0;
+    final double FLAPPER_POWER_FORWARD = 0.8;
+    final double FLAPPER_POWER_REVERSE = -0.8;
 
     DcMotor leftMotor;
     DcMotor rightMotor;
@@ -125,37 +132,37 @@ public class TeleOp extends OpMode {
 
         if (gamepad1.left_bumper) {
             if (flapperActive == false) {
-                flapperMotor.setPower(0);
+                flapperMotor.setPower(FLAPPER_POWER_START);
                 flapperActive = true;
             } else if (flapperActive == true){
-               flapperMotor.setPower(0.5);
+               flapperMotor.setPower(FLAPPER_POWER_FORWARD);
                 flapperActive = false;
             }
         }
         if (gamepad1.right_bumper) {
             if (flapperActive == false) {
-                flapperMotor.setPower(0);
+                flapperMotor.setPower(FLAPPER_POWER_START);
                 flapperActive = true;
             } else if (flapperActive == true){
-                flapperMotor.setPower(-0.5);
+                flapperMotor.setPower(FLAPPER_POWER_REVERSE);
                 flapperActive = false;
             }
         }
         if (gamepad1.dpad_up) {
             if (grappleActive == false) {
-                wenchMotor.setPower(0);
+                wenchMotor.setPower(WENCH_POWER_START);
                 grappleActive = true;
             } else if (grappleActive == true){
-                wenchMotor.setPower(1);
+                wenchMotor.setPower(WENCH_POWER_EXTENDED);
                 grappleActive = false;
             }
         }
         if (gamepad1.dpad_down) {
             if (grappleActive == false) {
-                wenchMotor.setPower(0);
+                wenchMotor.setPower(WENCH_POWER_START);
                 grappleActive = true;
             } else if (grappleActive == true){
-                wenchMotor.setPower(-1);
+                wenchMotor.setPower(WENCH_POWER_RETRACTED);
                 grappleActive = false;
             }
         }
