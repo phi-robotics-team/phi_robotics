@@ -7,10 +7,14 @@ import com.qualcomm.robotcore.util.Range;
 
 public class TeleOp extends OpMode {
 
-    final double LEFT_OPEN_POSITION = 0.0;
-    final double LEFT_CLOSED_POSITION = 0.5;
-    final double RIGHT_OPEN_POSITION = 1.0;
-    final double RIGHT_CLOSED_POSITION = 0.5;
+    final double LEFT_SERVO_START = 0.0;
+    final double LEFT_SERVO_EXTENDED =  0.5;
+    final double RIGHT_SERVO_START = 0.0;
+    final double RIGHT_SERVO_EXTENDED = 0.5;
+    final double HOOK_START =  0.0;
+    final double HOOK_EXTENDED = 1.0;
+    final double TRAP_DOOR_START = 0.0;
+    final double TRAP_DOOR_EXTENDED = 1.0;
 
     DcMotor leftMotor;
     DcMotor rightMotor;
@@ -20,22 +24,28 @@ public class TeleOp extends OpMode {
     boolean rightActive;
     boolean leftActive;
     DcMotor wenchMotor;
-    DcMotor wenchMotor2;
+    DcMotor motorArm;
+    DcMotor flapperMotor;
     Servo servo3;
+    Servo servo4;
     boolean hookActive;
     boolean linkActive;
+    boolean flapperActive;
+    boolean grappleActive;
 
     @Override
     public void init() {
         //Get references to the motors and servos from the hardware map
-        servo1 = hardwareMap.servo.get("servo_1");
-        servo2 = hardwareMap.servo.get("servo_2");
+        servo1 = hardwareMap.servo.get("leftSide");
+        servo2 = hardwareMap.servo.get("rightSide");
         sliderMotor = hardwareMap.dcMotor.get("slider");
         wenchMotor = hardwareMap.dcMotor.get("wench");
-        wenchMotor2 = hardwareMap.dcMotor.get("wench_2");
         leftMotor = hardwareMap.dcMotor.get("left_drive");
         rightMotor = hardwareMap.dcMotor.get("right_drive");
         servo3 = hardwareMap.servo.get("hook");
+        motorArm = hardwareMap.dcMotor.get("t_rex_arm");
+        servo4 = hardwareMap.servo.get("trapDoor");
+        flapperMotor = hardwareMap.dcMotor.get("flappers");
         //Reverse the right motor
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
         // This code tracks the state of the servos as active or inactive
@@ -43,7 +53,10 @@ public class TeleOp extends OpMode {
         leftActive = false;
         hookActive = false;
         linkActive = false;
+        flapperActive = false;
+        grappleActive = false;
 
+        // Initialize the servo and delta position for left servo
     }
 
     @Override
@@ -53,7 +66,7 @@ public class TeleOp extends OpMode {
         //Note: pushing the stick all the way up returns -1,
         // so we need to reverse the y values
         float xValue = gamepad1.left_stick_x;
-        float yValue = -gamepad1.left_stick_y;
+        float yValue = gamepad1.left_stick_y;
 
         //Calculate the power needed for each motor
         float leftPower = yValue + xValue;
@@ -67,58 +80,93 @@ public class TeleOp extends OpMode {
         leftMotor.setPower(leftPower);
         rightMotor.setPower(rightPower);
 
-        // This code will control the up and down movement of
-        // the grapple hook using the right joystick
-        float grapple = gamepad1.right_stick_y;
-        float grapple2 = gamepad1.right_stick_y;
-        grapple = Range.clip(grapple, -1, 1);
-        grapple2 = Range.clip(grapple2, -1, 1);
-        if (linkActive == false) {
-            wenchMotor.setPower(grapple);
-            wenchMotor2.setPower(grapple2);
+        float armPosition = gamepad1.right_stick_y;
+        float arm = Range.clip(armPosition, -1, 1);
+        motorArm.setPower(arm);
+
+        // Use A button to open and close left arm
+        if (gamepad1.a) {
+            if (leftActive == false) {
+               servo1.setPosition(LEFT_SERVO_START);
+                leftActive = true;
+            } else if (leftActive == true){
+                servo1.setPosition(LEFT_SERVO_EXTENDED);
+                leftActive = false;
+            }
         }
 
-        // The left servo will be using the button A to move
-        if (gamepad1.a && leftActive == false) {
-            servo1.setPosition(LEFT_OPEN_POSITION);
-            leftActive = true;
-        } else if (gamepad1.a && leftActive == true) {
-            servo1.setPosition(LEFT_CLOSED_POSITION);
-            leftActive = false;
-        }
-        // The right servo will be using button X to move
-        if (gamepad1.b && rightActive == false) {
-            servo2.setPosition(RIGHT_OPEN_POSITION);
-            rightActive = true;
-        } else if (gamepad1.b && rightActive == true) {
-            servo2.setPosition(RIGHT_CLOSED_POSITION);
-            rightActive = false;
+        // Use B button to open and close right arm
+        if (gamepad1.b) {
+            if (rightActive == false) {
+                servo2.setPosition(RIGHT_SERVO_START);
+                rightActive = true;
+            } else if (rightActive == true){
+                servo2.setPosition(RIGHT_SERVO_EXTENDED);
+                rightActive = false;
+            }
         }
 
-        if (gamepad1.x && hookActive == false) {
-            servo3.setPosition(RIGHT_OPEN_POSITION);
-            hookActive = true;
-        } else if (gamepad1.x && hookActive == true) {
-            servo3.setPosition(RIGHT_CLOSED_POSITION);
-            hookActive = false;
+        // Use X button to extend and retract hook
+        if (gamepad1.x) {
+            if (hookActive == false) {
+                servo3.setPosition(HOOK_START);
+                hookActive = true;
+            } else if (hookActive == true){
+                servo3.setPosition(HOOK_EXTENDED);
+                hookActive = false;
+            }
         }
+
+        if(gamepad1.y) {
+            servo4.setPosition(TRAP_DOOR_START);
+        } else {
+            servo4.setPosition(TRAP_DOOR_EXTENDED);
+        }
+
+        if (gamepad1.left_bumper) {
+            if (flapperActive == false) {
+                flapperMotor.setPower(0);
+                flapperActive = true;
+            } else if (flapperActive == true){
+               flapperMotor.setPower(0.5);
+                flapperActive = false;
+            }
+        }
+        if (gamepad1.right_bumper) {
+            if (flapperActive == false) {
+                flapperMotor.setPower(0);
+                flapperActive = true;
+            } else if (flapperActive == true){
+                flapperMotor.setPower(-0.5);
+                flapperActive = false;
+            }
+        }
+        if (gamepad1.dpad_up) {
+            if (grappleActive == false) {
+                wenchMotor.setPower(0);
+                grappleActive = true;
+            } else if (grappleActive == true){
+                wenchMotor.setPower(1);
+                grappleActive = false;
+            }
+        }
+        if (gamepad1.dpad_down) {
+            if (grappleActive == false) {
+                wenchMotor.setPower(0);
+                grappleActive = true;
+            } else if (grappleActive == true){
+                wenchMotor.setPower(-1);
+                grappleActive = false;
+            }
+        }
+
+            // Slider controls and positioning
         float sliderUp = gamepad1.right_trigger;
         float sliderDown = gamepad1.left_trigger;
         float slider = sliderUp - sliderDown;
         slider = Range.clip(slider, -1, 1);
         sliderMotor.setPower(slider);
-        
-        if (gamepad1.y && linkActive == false)  {
-            wenchMotor.setPower(slider);
-            wenchMotor2.setPower(slider);
-            linkActive = true;
-        } else if (gamepad1.y && linkActive == true) {
-            wenchMotor.setPower(grapple);
-            wenchMotor2.setPower(grapple2);
-            linkActive = false;
-        }
 
     }
-
 }
 
