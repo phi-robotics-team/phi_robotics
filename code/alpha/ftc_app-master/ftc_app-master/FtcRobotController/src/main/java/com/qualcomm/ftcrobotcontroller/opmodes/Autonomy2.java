@@ -3,9 +3,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class Autonomy extends LinearOpMode{
-
-
+public class Autonomy2 extends LinearOpMode{
     DcMotor leftMotor;
     DcMotor rightMotor;
 
@@ -27,9 +25,9 @@ public class Autonomy extends LinearOpMode{
         //Wait for 3 seconds
         sleep(3000);
 
-        // Turn right
-        leftMotor.setPower(0.5);
-        rightMotor.setPower(-0.5);
+        // Turn left
+        leftMotor.setPower(-0.5);
+        rightMotor.setPower(0.5);
 
         //Wait for 1.2 seconds
         sleep(1200);
@@ -47,4 +45,5 @@ public class Autonomy extends LinearOpMode{
         rightMotor.setPower(0);
     }
 }
+
 
