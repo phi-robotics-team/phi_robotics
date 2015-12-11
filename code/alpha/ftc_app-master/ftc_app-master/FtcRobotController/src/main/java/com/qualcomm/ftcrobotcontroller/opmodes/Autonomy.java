@@ -22,22 +22,22 @@ public class Autonomy extends LinearOpMode{
         leftMotor.setPower(0.5);
         rightMotor.setPower(0.5);
 
-        //Wait for 3.2 seconds
-        sleep(3200);
+        //Wait for 2.8 seconds
+        sleep(2800);
 
         // Turn right
         leftMotor.setPower(0.5);
         rightMotor.setPower(-0.5);
 
-        //Wait for 1.3 seconds
-        sleep(1300);
+        //Wait for 1.2 seconds
+        sleep(1200);
 
         // Drive forwards
         leftMotor.setPower(0.5);
         rightMotor.setPower(0.5);
 
-        // Wait 3.8 seconds
-        sleep(3800);
+        // Wait 3.5 seconds
+        sleep(3500);
 
 
         //Stop the robot
