@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 public class TeleOp extends OpMode {
 
 
-    final double HOOK_CLOSE =  0.0;
-    final double HOOK_EXTENDED = 1.0;
     final double TRAP_DOOR_START = 0.0;
     final double TRAP_DOOR_EXTENDED = 1.0;
 
@@ -44,6 +42,7 @@ public class TeleOp extends OpMode {
         flapperMotor = hardwareMap.dcMotor.get("flappers");
         //Reverse the right motor
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        motorArm.setDirection(DcMotor.Direction.REVERSE);
         // This code tracks the state of the servos as active or inactive
         flapperActive = false;
         grappleActive = false;
@@ -78,13 +77,12 @@ public class TeleOp extends OpMode {
 
         // Use A button to open and close left arm
         if(gamepad1.a) {
-            servo1.setPosition(HOOK_EXTENDED);
+            servo1.setPosition(0.0);
         }
 
 
-
         if(gamepad1.b) {
-            servo1.setPosition(HOOK_CLOSE);
+            servo1.setPosition(1.0);
         }
 
         if(gamepad1.y) {
