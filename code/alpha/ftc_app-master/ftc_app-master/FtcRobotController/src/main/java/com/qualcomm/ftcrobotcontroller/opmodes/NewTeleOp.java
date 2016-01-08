@@ -16,21 +16,21 @@ public class NewTeleOp extends OpMode {
     DcMotor leftDrive;
     DcMotor rightDrive;
     DcMotor motorArm;
-    DcMotor flapperMotor;
-    DcMotor winchMotor;
-    DcMotor tail;
+    //DcMotor flapperMotor;
+    //DcMotor winchMotor;
+    //DcMotor tail;
     Servo trapDoor;
 
     @Override
     public void init() {
         //Get references to the motors and servos from the hardware map
-        winchMotor = hardwareMap.dcMotor.get("winch");
+        //winchMotor = hardwareMap.dcMotor.get("winch");
         leftDrive = hardwareMap.dcMotor.get("leftDrive");
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
         motorArm = hardwareMap.dcMotor.get("t_rex_arm");
         trapDoor = hardwareMap.servo.get("trapDoor");
-        flapperMotor = hardwareMap.dcMotor.get("flappers");
-        tail = hardwareMap.dcMotor.get("tail");
+        //flapperMotor = hardwareMap.dcMotor.get("flappers");
+        //tail = hardwareMap.dcMotor.get("tail");
         //Reverse the right motor
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         motorArm.setDirection(DcMotor.Direction.REVERSE);
