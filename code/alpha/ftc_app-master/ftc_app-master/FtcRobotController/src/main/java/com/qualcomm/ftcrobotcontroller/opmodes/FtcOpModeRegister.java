@@ -71,6 +71,9 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("Autonomy2", Autonomy2.class);
     manager.register("ServoProgram", ServoProgram.class);
     manager.register("SmallFry", SmallFry.class);
+    manager.register("EncoderProgram", EncoderProgram.class);
+    manager.register("RookieMotor", RookieMotor.class);
+    manager.register("NewTeleOp", NewTeleOp.class);
 
 
     /*

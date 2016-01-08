@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -14,9 +15,9 @@ public class EncoderProgram extends OpMode {
         DcMotor rightMotor;
         DcMotor leftMotor;
 
-        final static int ENCODER_CPR = 1440;     //Encoder Counts per Revolution
-        final static double GEAR_RATIO = 2;      //Gear Ratio
-        final static int WHEEL_DIAMETER = 4;     //Diameter of the wheel in inches
+        final static int ENCODER_CPR = 1120;     //Encoder Counts per Revolution
+        final static double GEAR_RATIO = 1;      //Gear Ratio
+        final static int WHEEL_DIAMETER = 3;     //Diameter of the wheel in inches
         final static int DISTANCE = 24;          //Distance in inches to drive
 
         final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
