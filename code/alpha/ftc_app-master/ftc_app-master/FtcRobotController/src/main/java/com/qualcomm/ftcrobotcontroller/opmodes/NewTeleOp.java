@@ -12,28 +12,44 @@ public class NewTeleOp extends OpMode {
 
     final double TRAP_DOOR_START = 0.0;
     final double TRAP_DOOR_EXTENDED = 1.0;
+    final double WHIP_EXTENDED = 1.0;
+    final double WHIP_CLOSE = 0.0;
+
+    final double FLAPPER_POWER_START = 0.0;
+    final double FLAPPER_POWER_FORWARD = 0.8;
+    final double FLAPPER_POWER_REVERSE = -0.8;
+    final double WINCH_POWER_START = 0.0;
+    final double WINCH_POWER_FORWARD = 0.8;
+    final double WINCH_POWER_REVERSE = -0.8;
+
 
     DcMotor leftDrive;
     DcMotor rightDrive;
     DcMotor motorArm;
-    //DcMotor flapperMotor;
-    //DcMotor winchMotor;
-    //DcMotor tail;
+    DcMotor flapperMotor;
+    DcMotor winchMotor;
+    Servo whip;
     Servo trapDoor;
+    boolean flapperActive;
+    boolean winchActive;
 
     @Override
     public void init() {
         //Get references to the motors and servos from the hardware map
-        //winchMotor = hardwareMap.dcMotor.get("winch");
+        winchMotor = hardwareMap.dcMotor.get("winch");
         leftDrive = hardwareMap.dcMotor.get("leftDrive");
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
         motorArm = hardwareMap.dcMotor.get("t_rex_arm");
+        flapperMotor = hardwareMap.dcMotor.get("flappers");
         trapDoor = hardwareMap.servo.get("trapDoor");
-        //flapperMotor = hardwareMap.dcMotor.get("flappers");
-        //tail = hardwareMap.dcMotor.get("tail");
+        whip = hardwareMap.servo.get("whip");
         //Reverse the right motor
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         motorArm.setDirection(DcMotor.Direction.REVERSE);
+
+        flapperActive = false;
+        winchActive = false;
+
 
     }
 
@@ -68,5 +84,48 @@ public class NewTeleOp extends OpMode {
             trapDoor.setPosition(TRAP_DOOR_EXTENDED);
         }
 
+        if (gamepad1.x){
+            whip.setPosition(WHIP_EXTENDED);
+        } else {
+            whip.setPosition(WHIP_CLOSE);
+        }
+
+        if (gamepad1.left_bumper) {
+            if (flapperActive == false) {
+                flapperMotor.setPower(FLAPPER_POWER_START);
+                flapperActive = true;
+            } else if (flapperActive == true){
+                flapperMotor.setPower(FLAPPER_POWER_FORWARD);
+                flapperActive = false;
+            }
+        }
+        if (gamepad1.right_bumper) {
+            if (flapperActive == false) {
+                flapperMotor.setPower(FLAPPER_POWER_START);
+                flapperActive = true;
+            } else if (flapperActive == true) {
+                flapperMotor.setPower(FLAPPER_POWER_REVERSE);
+                flapperActive = false;
+            }
+        }
+        if (gamepad1.a) {
+            if (winchActive == false) {
+                winchMotor.setPower(WINCH_POWER_START);
+                winchActive = true;
+            } else if (winchActive == true){
+                winchMotor.setPower(WINCH_POWER_FORWARD);
+                winchActive = false;
+            }
+        }
+
+        if (gamepad1.b) {
+            if (winchActive == false) {
+                winchMotor.setPower(WINCH_POWER_START);
+                winchActive = true;
+            } else if (winchActive == true) {
+                winchMotor.setPower(WINCH_POWER_REVERSE);
+                winchActive = false;
+            }
+        }
     }
 }
