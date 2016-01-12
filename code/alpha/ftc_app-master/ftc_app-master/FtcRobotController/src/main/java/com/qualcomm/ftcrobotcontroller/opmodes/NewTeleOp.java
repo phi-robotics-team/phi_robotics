@@ -15,9 +15,9 @@ public class NewTeleOp extends OpMode {
     final double WHIP_EXTENDED = 1.0;
     final double WHIP_CLOSE = 0.0;
 
-    final double FLAPPER_POWER_START = 0.0;
-    final double FLAPPER_POWER_FORWARD = 0.8;
-    final double FLAPPER_POWER_REVERSE = -0.8;
+    final double WHEELS_POWER_START = 0.0;
+    final double WHEELS_POWER_FORWARD = 0.8;
+    final double WHEELS_POWER_REVERSE = -0.8;
     final double WINCH_POWER_START = 0.0;
     final double WINCH_POWER_FORWARD = 0.8;
     final double WINCH_POWER_REVERSE = -0.8;
@@ -27,10 +27,11 @@ public class NewTeleOp extends OpMode {
     DcMotor rightDrive;
     DcMotor motorArm;
     DcMotor flapperMotor;
+    DcMotor wheels;
     DcMotor winchMotor;
     Servo whip;
     Servo trapDoor;
-    boolean flapperActive;
+    boolean wheelsActive;
     boolean winchActive;
 
     @Override
@@ -47,7 +48,7 @@ public class NewTeleOp extends OpMode {
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         motorArm.setDirection(DcMotor.Direction.REVERSE);
 
-        flapperActive = false;
+        wheelsActive = false;
         winchActive = false;
 
 
@@ -60,7 +61,7 @@ public class NewTeleOp extends OpMode {
         //Note: pushing the stick all the way up returns -1,
         // so we need to reverse the y values
         float xValue = gamepad1.left_stick_x;
-        float yValue = -gamepad1.left_stick_y;
+        float yValue = gamepad1.left_stick_y;
 
         //Calculate the power needed for each motor
         float leftPower = yValue + xValue;
@@ -91,21 +92,21 @@ public class NewTeleOp extends OpMode {
         }
 
         if (gamepad1.left_bumper) {
-            if (flapperActive == false) {
-                flapperMotor.setPower(FLAPPER_POWER_START);
-                flapperActive = true;
-            } else if (flapperActive == true){
-                flapperMotor.setPower(FLAPPER_POWER_FORWARD);
-                flapperActive = false;
+            if (wheelsActive == false) {
+                flapperMotor.setPower(WHEELS_POWER_START);
+                wheelsActive = true;
+            } else if (wheelsActive == true){
+                flapperMotor.setPower(WHEELS_POWER_FORWARD);
+                wheelsActive = false;
             }
         }
         if (gamepad1.right_bumper) {
-            if (flapperActive == false) {
-                flapperMotor.setPower(FLAPPER_POWER_START);
-                flapperActive = true;
-            } else if (flapperActive == true) {
-                flapperMotor.setPower(FLAPPER_POWER_REVERSE);
-                flapperActive = false;
+            if (wheelsActive == false) {
+                wheels.setPower(WHEELS_POWER_START);
+                wheelsActive = true;
+            } else if (wheelsActive == true) {
+                wheels.setPower(WHEELS_POWER_REVERSE);
+                wheelsActive = false;
             }
         }
         if (gamepad1.a) {
@@ -127,5 +128,6 @@ public class NewTeleOp extends OpMode {
                 winchActive = false;
             }
         }
+
     }
 }
