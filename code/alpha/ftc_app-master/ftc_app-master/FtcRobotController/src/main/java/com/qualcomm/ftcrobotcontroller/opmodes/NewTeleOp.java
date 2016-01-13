@@ -15,9 +15,9 @@ public class NewTeleOp extends OpMode {
     final double WHIP_EXTENDED = 1.0;
     final double WHIP_CLOSE = 0.0;
 
-    final double WHEELS_POWER_START = 0.0;
-    final double WHEELS_POWER_FORWARD = 0.8;
-    final double WHEELS_POWER_REVERSE = -0.8;
+    final double FLAPPERS_POWER_START = 0.0;
+    final double FLAPPERS_POWER_FORWARD = 0.8;
+    final double FLAPPERS_POWER_REVERSE = -0.8;
     final double WINCH_POWER_START = 0.0;
     final double WINCH_POWER_FORWARD = 0.8;
     final double WINCH_POWER_REVERSE = -0.8;
@@ -27,11 +27,11 @@ public class NewTeleOp extends OpMode {
     DcMotor rightDrive;
     DcMotor motorArm;
     DcMotor flapperMotor;
-    DcMotor wheels;
+    DcMotor tail;
     DcMotor winchMotor;
     Servo whip;
     Servo trapDoor;
-    boolean wheelsActive;
+    boolean flapperActive;
     boolean winchActive;
 
     @Override
@@ -44,11 +44,12 @@ public class NewTeleOp extends OpMode {
         flapperMotor = hardwareMap.dcMotor.get("flappers");
         trapDoor = hardwareMap.servo.get("trapDoor");
         whip = hardwareMap.servo.get("whip");
+        tail = hardwareMap.dcMotor.get("tail");
         //Reverse the right motor
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         motorArm.setDirection(DcMotor.Direction.REVERSE);
 
-        wheelsActive = false;
+        flapperActive = false;
         winchActive = false;
 
 
@@ -75,9 +76,16 @@ public class NewTeleOp extends OpMode {
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
 
+
         float armPosition = gamepad1.right_stick_y;
         float arm = Range.clip(armPosition, -1, 1);
         motorArm.setPower(arm);
+
+        float wheelsUp = gamepad1.right_trigger;
+        float wheelsDown = gamepad1.left_trigger;
+        float wheels = wheelsUp - wheelsDown;
+        wheels = Range.clip(wheels, -1, 1);
+        tail.setPower(wheels);
 
         if (gamepad1.y) {
             trapDoor.setPosition(TRAP_DOOR_START);
@@ -92,21 +100,21 @@ public class NewTeleOp extends OpMode {
         }
 
         if (gamepad1.left_bumper) {
-            if (wheelsActive == false) {
-                flapperMotor.setPower(WHEELS_POWER_START);
-                wheelsActive = true;
-            } else if (wheelsActive == true){
-                flapperMotor.setPower(WHEELS_POWER_FORWARD);
-                wheelsActive = false;
+            if (flapperActive == false) {
+                flapperMotor.setPower(FLAPPERS_POWER_START);
+                flapperActive = true;
+            } else if (flapperActive == true){
+                flapperMotor.setPower(FLAPPERS_POWER_FORWARD);
+                flapperActive = false;
             }
         }
         if (gamepad1.right_bumper) {
-            if (wheelsActive == false) {
-                wheels.setPower(WHEELS_POWER_START);
-                wheelsActive = true;
-            } else if (wheelsActive == true) {
-                wheels.setPower(WHEELS_POWER_REVERSE);
-                wheelsActive = false;
+            if (flapperActive == false) {
+                flapperMotor.setPower(FLAPPERS_POWER_START);
+                flapperActive = true;
+            } else if (flapperActive == true) {
+                flapperMotor.setPower(FLAPPERS_POWER_REVERSE);
+                flapperActive = false;
             }
         }
         if (gamepad1.a) {
@@ -128,6 +136,7 @@ public class NewTeleOp extends OpMode {
                 winchActive = false;
             }
         }
+
 
     }
 }
