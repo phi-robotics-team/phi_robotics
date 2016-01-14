@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class NewTeleOp extends OpMode {
 
-    final double TRAP_DOOR_START = 0.0;
+    final double TRAP_DOOR_CLOSE = 0.0;
     final double TRAP_DOOR_EXTENDED = 1.0;
-    final double WHIP_EXTENDED = 1.0;
-    final double WHIP_CLOSE = 0.0;
+    final double WHIP_EXTENDED = 0.0;
+    final double WHIP_CLOSE = 1.0;
 
     final double FLAPPERS_POWER_START = 0.0;
     final double FLAPPERS_POWER_FORWARD = 0.8;
@@ -42,9 +42,10 @@ public class NewTeleOp extends OpMode {
         rightDrive = hardwareMap.dcMotor.get("rightDrive");
         motorArm = hardwareMap.dcMotor.get("t_rex_arm");
         flapperMotor = hardwareMap.dcMotor.get("flappers");
+        tail = hardwareMap.dcMotor.get("tail");
         trapDoor = hardwareMap.servo.get("trapDoor");
         whip = hardwareMap.servo.get("whip");
-        tail = hardwareMap.dcMotor.get("tail");
+
         //Reverse the right motor
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         motorArm.setDirection(DcMotor.Direction.REVERSE);
@@ -77,7 +78,7 @@ public class NewTeleOp extends OpMode {
         rightDrive.setPower(rightPower);
 
 
-        float armPosition = gamepad1.right_stick_y;
+        float armPosition = -gamepad1.right_stick_y;
         float arm = Range.clip(armPosition, -1, 1);
         motorArm.setPower(arm);
 
@@ -88,14 +89,16 @@ public class NewTeleOp extends OpMode {
         tail.setPower(wheels);
 
         if (gamepad1.y) {
-            trapDoor.setPosition(TRAP_DOOR_START);
-        } else {
             trapDoor.setPosition(TRAP_DOOR_EXTENDED);
+        } else {
+            trapDoor.setPosition(TRAP_DOOR_CLOSE);
         }
 
-        if (gamepad1.x){
+        if (gamepad1.start){
             whip.setPosition(WHIP_EXTENDED);
-        } else {
+        }
+
+        if (gamepad1.back){
             whip.setPosition(WHIP_CLOSE);
         }
 
@@ -136,7 +139,6 @@ public class NewTeleOp extends OpMode {
                 winchActive = false;
             }
         }
-
 
     }
 }
