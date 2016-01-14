@@ -17,29 +17,35 @@ public class NewAutonomy extends LinearOpMode {
     final static int ENCODER_CPR = 1120;     //Encoder Counts per Revolution
     final static double GEAR_RATIO = 16.24;      //Gear Ratio
     final static int WHEEL_DIAMETER = 3;     //Diameter of the wheel in inches
-    final static int DISTANCE = 24;          //Distance in inches to drive
+    final static int DISTANCE = 60;          //Distance in inches to drive
+    final static int AFTER_TURN = 40;
+
+
+
 
     final static double CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
-    final static double ROTATIONS = DISTANCE / CIRCUMFERENCE;
-    final static double COUNTS = ENCODER_CPR * ROTATIONS * GEAR_RATIO;
+    final static double FORWARD = DISTANCE / CIRCUMFERENCE;
+    final static double FIRST = ENCODER_CPR * FORWARD * GEAR_RATIO;
+    final static double AGAIN = AFTER_TURN / CIRCUMFERENCE;
+    final static double SECOND = ENCODER_CPR * AGAIN * GEAR_RATIO;
 
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         //setup the left and right motors from the configuration file
-        leftDrive = hardwareMap.dcMotor.get("left_drive");
-        rightDrive = hardwareMap.dcMotor.get("right_drive");
+        leftDrive = hardwareMap.dcMotor.get("leftDrive");
+        rightDrive = hardwareMap.dcMotor.get("rightDrive");
         //reverse the right side motor
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+
+        waitForStart();
 
         leftDrive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
         rightDrive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
 
-        waitForStart();
-
-        leftDrive.setTargetPosition((int) COUNTS);
-        rightDrive.setTargetPosition((int) COUNTS);
+        leftDrive.setTargetPosition((int) FIRST);
+        rightDrive.setTargetPosition((int) FIRST);
 
         leftDrive.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
         rightDrive.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
@@ -47,6 +53,29 @@ public class NewAutonomy extends LinearOpMode {
         leftDrive.setPower(0.5);
         rightDrive.setPower(0.5);
 
+        leftDrive.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        rightDrive.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+
+        leftDrive.setPower(0.5);
+        rightDrive.setPower(-0.5);
+
+        sleep(2000);
+
+        leftDrive.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightDrive.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+
+        leftDrive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightDrive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        leftDrive.setTargetPosition((int) SECOND);
+        rightDrive.setTargetPosition((int) SECOND);
+
+        leftDrive.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        rightDrive.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+
+        leftDrive.setPower(0.5);
+        rightDrive.setPower(0.5);
 
     }
 
