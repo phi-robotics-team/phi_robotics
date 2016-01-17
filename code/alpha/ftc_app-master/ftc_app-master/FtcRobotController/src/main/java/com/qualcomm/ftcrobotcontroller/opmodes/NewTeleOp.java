@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 public class NewTeleOp extends OpMode {
 
     final double TRAP_DOOR_CLOSE = 0.0;
-    final double TRAP_DOOR_EXTENDED = 1.0;
+    final double TRAP_DOOR_EXTENDED = 0.7;
     final double WHIP_EXTENDED = 0.0;
     final double WHIP_CLOSE = 1.0;
 
@@ -49,6 +49,7 @@ public class NewTeleOp extends OpMode {
         //Reverse the right motor
         rightDrive.setDirection(DcMotor.Direction.REVERSE);
         motorArm.setDirection(DcMotor.Direction.REVERSE);
+        flapperMotor.setDirection(DcMotor.Direction.REVERSE);
 
         flapperActive = false;
         winchActive = false;
