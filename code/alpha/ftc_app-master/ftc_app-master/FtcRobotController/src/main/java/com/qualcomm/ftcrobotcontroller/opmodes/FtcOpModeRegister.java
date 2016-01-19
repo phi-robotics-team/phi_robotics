@@ -75,6 +75,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("RookieMotor", RookieMotor.class);
     manager.register("NewTeleOp", NewTeleOp.class);
     manager.register("NewAutonomy", NewAutonomy.class);
+    manager.register("testing", testing.class);
 
 
     /*
