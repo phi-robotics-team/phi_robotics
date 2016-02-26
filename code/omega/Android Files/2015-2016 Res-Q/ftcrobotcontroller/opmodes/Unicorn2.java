@@ -117,7 +117,7 @@ public class Unicorn2 extends OpMode {
 
         //Tape Measure
         tmservo = hardwareMap.servo.get("servo_6");
-        tmservoPosition = 0.2;
+        tmservoPosition = 0.8;
         tmservo.setPosition(tmservoPosition);
         telemetry.addData("pos", tmservo.getPosition());
 
@@ -313,7 +313,7 @@ public class Unicorn2 extends OpMode {
 
         telemetry.addData("back button",gamepad1.back);
         telemetry.addData("start button",gamepad1.start);
-        if (gamepad1.start)
+        if (gamepad1.dpad_down)
         {
             lhookservopos=.5;
             rhookservopos=.5;

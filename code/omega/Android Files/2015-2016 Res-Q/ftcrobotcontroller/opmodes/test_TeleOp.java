@@ -45,9 +45,8 @@ public class test_TeleOp extends OpMode {
 	DcMotor leftRear;
 	DcMotor rightFront;
 	DcMotor rightRear;
-	DcMotor conveyM;
 	DcMotor lift;
-
+	DcMotor intake;
 
 	/**
 	 * Constructor
@@ -81,11 +80,12 @@ public class test_TeleOp extends OpMode {
 		 *    "servo_1" controls the arm joint of the manipulator.
 		 *    "servo_6" controls the claw joint of the manipulator.
 		 */
-		rightFront = hardwareMap.dcMotor.get("front_right");
-		rightRear = hardwareMap.dcMotor.get("back_right");
-		leftFront = hardwareMap.dcMotor.get("front_left");
-		leftRear = hardwareMap.dcMotor.get("back_left");
+		rightFront = hardwareMap.dcMotor.get("rightFront");
+		rightRear = hardwareMap.dcMotor.get("rightRear");
+		leftFront = hardwareMap.dcMotor.get("leftFront");
+		leftRear = hardwareMap.dcMotor.get("leftRear");
 		lift = hardwareMap.dcMotor.get("lift");
+		intake=hardwareMap.dcMotor.get("intake");
 
 		leftFront.setDirection(DcMotor.Direction.REVERSE);
 		leftRear.setDirection(DcMotor.Direction.REVERSE);
@@ -118,7 +118,7 @@ public class test_TeleOp extends OpMode {
 		float rawX = 0;
 		float rawY = 0;
 		double conv_p = -.8;
-		double conv_p2= -.6;
+		double conv_p2= -.85;
 		float shapedX, shapedY;
 		float leftPower, rightPower;
 		double convPower;
@@ -180,7 +180,7 @@ public class test_TeleOp extends OpMode {
 		leftRear.setPower(leftPower);
 		rightFront.setPower(rightPower);
 		rightRear.setPower(rightPower);
-		conveyM.setPower(convPower);
+		intake.setPower(convPower);
 		lift.setPower(convPower2);
 
 		telemetry.addData("leftPower ", leftPower);
